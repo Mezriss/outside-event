@@ -1,0 +1,17 @@
+{
+  "name": "outside-event",
+  "version": "0.0.1",
+  "description": "Standalone helper for capturing events that happen outside of given element. Or elements.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "outside",
+    "event",
+    "dom",
+    "click"
+  ],
+  "author": "Mezriss",
+  "license": "MIT"
+}
