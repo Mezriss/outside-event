@@ -1,16 +1,69 @@
 <!DOCTYPE>
 <html>
 	<head>
+		<title></title>
 		<meta charset="utf-8">
-		<style></style>
-
-		<script type="text/javascript">
-
-		</script>
+		<link href="style.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
-		<div class="test test-subject1">0</div>
-		<div class="test test-subject2">0</div>
-		<div class="test test-subject3">0</div>
+		<h1>outside-event</h1>
+		<div class="test-container">
+			<div class="test test-subject1">
+				<div class="child">
+					<div class="child">
+						0
+					</div>
+				</div>
+			</div>
+			<p>Clicks outside of this circle</p>
+		</div>	
+		<div class="test-container">
+			<div class="test test-subject2">
+				<div class="child">
+					<div class="child">
+						0
+					</div>
+				</div>
+			</div>
+			<p>Clicks outside of first two circles</p>
+		</div>
+		<div class="test-container">	
+			<div class="test test-subject3">
+				<div class="child">
+					<div class="child">
+						0
+					</div>
+				</div>
+			</div>
+			<p>Clicks outside of all circles</p>
+		</div>	
+
+		<script src="../dist/outside-event.min.js"></script>
+		<script type="text/javascript">
+			(function () {
+				var $ = document.querySelector.bind(document),
+					$$ = document.querySelectorAll.bind(document),
+					c1 = c2 = c3 = 0,
+					oe = new OutsideEvent();
+
+				function test1() {
+					c1 += 1;
+					$('.test-subject1 .child .child').innerHTML = c1;
+				}
+
+				function test2() {
+					c2 += 1;
+					$('.test-subject2 .child .child').innerHTML = c2;
+				}
+				function test3() {
+					c3 += 1;
+					$('.test-subject3 .child .child').innerHTML = c3;
+				}
+				oe.on('click', '.test-subject1', test1);
+				oe.on('click', [$('.test-subject1'), $('.test-subject2')], test2);
+				oe.on('click', $$('.test'), test3);
+
+			}());
+		</script>
 	</body>
 </html>

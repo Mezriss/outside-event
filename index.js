@@ -2,20 +2,21 @@
 export default class OutsideEvent {
 	constructor() {
 		this._listeners = {};
-		this._matches = (el, selector) => (el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector)(selector);
+		this._matches = (el, selector) => 
+			(el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector).call(el, selector);
 		this._body = document.querySelector('body');
 		if (!this._body) {
 			throw new Error(`Don't initialize outsideEvent service before <body> is rendered`);
 		}
 	}
 
-	_checkParentsForNode(node, srcElement) {
-		if (!srcElement || srcElement === this._body) {
+	_checkParentsForNode(node, target) {
+		if (!target || target === this._body) {
 			return false;
 		}
 
-		return (typeof node === 'string' ? this._matches(srcElement, node) : node === srcElement) ? 
-			true : this._checkParentsForNode(node, srcElement && srcElement.parentNode);
+		return (typeof node === 'string' ? this._matches(target, node) : node === target) ? 
+			true : this._checkParentsForNode(node, target && target.parentNode);
 	}
 
 	_listener(event) {
@@ -27,7 +28,7 @@ export default class OutsideEvent {
 
 			for (let i = 0; i < el.elements.length && !insideEvent; i += 1) {
 				for (let j = 0; j < el.elements[i].length && !insideEvent; j += 1) {
-					insideEvent = this._checkParentsForNode(el.elements[i][j], event.srcElement);
+					insideEvent = this._checkParentsForNode(el.elements[i][j], event.target);
 				}
 			}
 
@@ -51,7 +52,7 @@ export default class OutsideEvent {
 		}
 
 		elements.forEach((el, i) => {
-				if (el instanceof HTMLElement || typeof el.elements[i] === 'string') {
+				if (el instanceof HTMLElement || typeof el === 'string') {
 					elements[i] = [el];
 				}
 			}

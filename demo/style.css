@@ -1,0 +1,40 @@
+body {
+	font: 400 0.9rem/1.4 sans-serif;
+	color: #444;
+	padding: 100px;
+	margin: 0;
+	text-align: center
+}		
+.test-container {
+	display: inline-block;
+	margin: 0 20px;
+	width: 150px;
+	vertical-align: top;
+}
+.test {
+	width: 100px;
+	height: 100px;
+	border-radius: 75px;
+	padding: 25px;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: pointer;
+}
+.test-subject1 {
+	background: rebeccapurple;
+}
+.test-subject2 {
+	background: limegreen;
+}
+.test-subject3 {
+	background: goldenrod;
+}
+.child {
+	background: rgba(0, 0, 0, 0.4);
+	height: 60%;
+	padding: 20%;
+	color: whitesmoke;
+	text-align: center;
+	line-height: 36px;
+}
