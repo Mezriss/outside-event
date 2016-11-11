@@ -1,5 +1,5 @@
 
-export default class outsideEvent {
+export default class OutsideEvent {
 	constructor() {
 		this._listeners = {};
 		this._matches = (el, selector) => (el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector)(selector);

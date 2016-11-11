@@ -2,6 +2,7 @@
   "name": "outside-event",
   "version": "0.0.1",
   "description": "Standalone helper for capturing events that happen outside of given element. Or elements.",
+  "repository": "https://github.com/Mezriss/outside-event.git",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +14,11 @@
     "click"
   ],
   "author": "Mezriss",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-preset-es2015": "^6.18.0",
+    "webpack": "^1.13.3"
+  }
 }
