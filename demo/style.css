@@ -5,6 +5,10 @@ body {
 	margin: 0;
 	text-align: center
 }		
+#main {
+	margin: 0 auto;
+	max-width: 580px;
+}
 .test-container {
 	display: inline-block;
 	margin: 0 20px;
@@ -29,6 +33,12 @@ body {
 }
 .test-subject3 {
 	background: goldenrod;
+}
+.test-subject4 {
+	background: indianred;
+}
+.test-subject5 {
+	background: cornflowerblue;
 }
 .child {
 	background: rgba(0, 0, 0, 0.4);
