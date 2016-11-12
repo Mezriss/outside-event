@@ -1,6 +1,6 @@
 {
   "name": "outside-event",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Standalone helper for capturing events that happen outside of given element. Or elements.",
   "repository": "https://github.com/Mezriss/outside-event.git",
   "main": "index.js",

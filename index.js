@@ -1,8 +1,8 @@
 function _listener (event) {
-	if (!Array.isArray(this._listenerList[event.type])) {
+	if (!Array.isArray(this._eventList[event.type])) {
 		return;
 	}
-	this._listenerList[event.type].forEach(el => {
+	this._eventList[event.type].forEach(el => {
 		let insideEvent = false;
 
 		for (let i = 0; i < el.elements.length && !insideEvent; i += 1) {
@@ -23,9 +23,9 @@ function _listener (event) {
 
 export default class OutsideEvent {
 	constructor() {
-		this._listenerList = {};
+		this._eventList = {}; //ie10 concession
 		if (!document.body) {
-			throw new Error(`Don't initialize outsideEvent service before <body> is rendered`);
+			throw new Error(`Don't initialize outside-event before <body> is rendered`);
 		}
 	}
 
@@ -50,11 +50,11 @@ export default class OutsideEvent {
 		);
 
 		events.forEach(event => {
-			if (!this._listenerList[event]) {
+			if (!this._eventList[event]) {
 				document.addEventListener(event, _listener.bind(this));
-				this._listenerList[event] = [];
+				this._eventList[event] = [];
 			}
-			this._listenerList[event].push({ elements, cb, once });
+			this._eventList[event].push({ elements, cb, once });
 		});
 	}
 
@@ -62,20 +62,33 @@ export default class OutsideEvent {
 		this.on(events, elements, cb, true);
 	}
 
+	/*
+		@cb - callback to unbind; unbinds everything if called without parameters
+	*/
 	off(cb) {
-		Object.keys(this._listenerList).forEach(eventType => {
+		if (arguments.length && !cb) {
+			return;
+		}
+		if (!arguments.length) {
+			Object.keys(this._eventList).forEach(eventType => {
+				delete this._eventList[eventType];
+				document.removeEventListener(eventType, _listener);
+			});
+			return;
+		}
+		Object.keys(this._eventList).forEach(eventType => {
 			let index = -1;
-			for (let i = 0; i < this._listenerList[eventType].length && index < 0; i += 1) { //ie10 concession
-				if (this._listenerList[eventType].cb === cb) {
+			for (let i = 0; i < this._eventList[eventType].length && index < 0; i += 1) { //ie10 concession
+				if (this._eventList[eventType][i].cb === cb) {
 					index = i;
 				}
 			}
 			if (index < 0) {
 				return;
 			}
-			this._listenerList[eventType].splice(index, 1);
-			if (!this._listenerList[eventType].length) {
-				delete this._listenerList[eventType];
+			this._eventList[eventType].splice(index, 1);
+			if (!this._eventList[eventType].length) {
+				delete this._eventList[eventType];
 				document.removeEventListener(eventType, _listener);
 			}
 		});

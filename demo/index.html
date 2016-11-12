@@ -74,24 +74,24 @@
 				oe.on('click wheel', $$('.test'), test4);
 				oe.once('click', $$('.test'), test5);
 
-				function test1() {
+				function test1(event) {
 					c1 += 1;
 					$('.test-subject1 .child .child').innerHTML = c1;
 				}
 
-				function test2() {
+				function test2(event) {
 					c2 += 1;
 					$('.test-subject2 .child .child').innerHTML = c2;
 				}
-				function test3() {
+				function test3(event) {
 					c3 += 1;
 					$('.test-subject3 .child .child').innerHTML = c3;
 				}
-				function test4() {
+				function test4(event) {
 					c4 += 1;
 					$('.test-subject4 .child .child').innerHTML = c4;
 				}
-				function test5() {
+				function test5(event) {
 					c5 += 1;
 					$('.test-subject5 .child .child').innerHTML = c5;
 				}
