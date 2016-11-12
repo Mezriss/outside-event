@@ -1,5 +1,5 @@
 body {
-	font: 400 0.9rem/1.4 sans-serif;
+	font: 400 0.9em/1.4 sans-serif;
 	color: #444;
 	padding: 100px;
 	margin: 0;
@@ -26,7 +26,7 @@ body {
 	cursor: pointer;
 }
 .test-subject1 {
-	background: rebeccapurple;
+	background: blueviolet;
 }
 .test-subject2 {
 	background: limegreen;

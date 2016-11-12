@@ -1,10 +1,8 @@
-const _listenerList = new WeakMap(); 
-
 function _listener (event) {
-	if (!Array.isArray(_listenerList.get(this)[event.type])) {
+	if (!Array.isArray(this._listenerList[event.type])) {
 		return;
 	}
-	_listenerList.get(this)[event.type].forEach(el => {
+	this._listenerList[event.type].forEach(el => {
 		let insideEvent = false;
 
 		for (let i = 0; i < el.elements.length && !insideEvent; i += 1) {
@@ -25,7 +23,7 @@ function _listener (event) {
 
 export default class OutsideEvent {
 	constructor() {
-		_listenerList.set(this, {});
+		this._listenerList = {};
 		if (!document.body) {
 			throw new Error(`Don't initialize outsideEvent service before <body> is rendered`);
 		}
@@ -52,27 +50,32 @@ export default class OutsideEvent {
 		);
 
 		events.forEach(event => {
-			if (!_listenerList.get(this)[event]) {
+			if (!this._listenerList[event]) {
 				document.addEventListener(event, _listener.bind(this));
-				_listenerList.get(this)[event] = [];
+				this._listenerList[event] = [];
 			}
-			_listenerList.get(this)[event].push({ elements, cb, once });
+			this._listenerList[event].push({ elements, cb, once });
 		});
 	}
 
 	once(events, elements, cb) {
 		this.on(events, elements, cb, true);
 	}
-	
+
 	off(cb) {
-		Object.keys(_listenerList.get(this)).forEach(eventType => {
-			const index = _listenerList.get(this)[eventType].findIndex(el => el.cb === cb);
+		Object.keys(this._listenerList).forEach(eventType => {
+			let index = -1;
+			for (let i = 0; i < this._listenerList[eventType].length && index < 0; i += 1) { //ie10 concession
+				if (this._listenerList[eventType].cb === cb) {
+					index = i;
+				}
+			}
 			if (index < 0) {
 				return;
 			}
-			_listenerList.get(this)[eventType].splice(index, 1);
-			if (!_listenerList.get(this)[eventType].length) {
-				delete _listenerList.get(this)[eventType];
+			this._listenerList[eventType].splice(index, 1);
+			if (!this._listenerList[eventType].length) {
+				delete this._listenerList[eventType];
 				document.removeEventListener(eventType, _listener);
 			}
 		});
